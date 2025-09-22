@@ -271,9 +271,13 @@ findContours(edges, contours3, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
 // 6. 初始化 Tesseract OCR
 tesseract::TessBaseAPI tess;
-
+if (tess.Init("/usr/share/tesseract-ocr/4.00/tessdata", "eng") != 0) {
+    cerr << "Tesseract 初始化失败！请检查 tessdata 路径是否正确" << endl;
+    return -1; 
+}
 tess.SetPageSegMode(tesseract::PSM_SINGLE_CHAR);
 tess.SetVariable("tessedit_char_whitelist", "0123456789"); // 只识别数字
+
 
 // 7. 创建用于OCR的预处理图像
 Mat gray4;
